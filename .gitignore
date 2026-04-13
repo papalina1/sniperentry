@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build output
+backend/dist/
+frontend/dist/
+
+# Environment — NEVER commit secrets
+.env
+**/.env
+.env.*
+!.env.example
+
+# SQLite database — ephemeral data, not source code
+backend/data/
+*.db
+*.db-shm
+*.db-wal
+
+# Logs
+*.log
+logs/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

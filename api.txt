@@ -1,0 +1,5 @@
+helius api: https://mainnet.helius-rpc.com/?api-key=5d524893-45b9-4186-bdf8-e5d9fe287348
+birdeye api: ee0c85281de348bba5792b7d59f99618
+solana wallet: sK2nnFsRqyjifTzK9DhbMpPJLy54bMUPsMZHYQAcNo9
+solana private key: 5sXWv74J8Kuv2vtExidJKvjqqpzUbTrD8r6wR3qkJpjGA7rzFow1r5gxve3mi6d4tQpWkvPUNDNc8Fssv6rDEBgj
+jup api : jup_4166ddddede187b22f61869def85fc6b5726520ffe0df06c809ea59d553ee494

@@ -1,0 +1,43 @@
+---
+  Install & Run
+
+  # Terminal 1 — Backend
+  cd solsniper/backend
+  cp ../.env.example .env        # fill in SOLANA_RPC_URL and BIRDEYE_API_KEY
+  npm install
+  npm run dev                    # → http://localhost:3001
+
+  # Terminal 2 — Frontend
+  cd solsniper/frontend
+  npm install
+  npm run dev                    # → http://localhost:5173
+
+  ▎ No Visual C++ Build Tools required — switched from better-sqlite3 to the built-in node:sqlite module (Node 22.5+, which you have at v24.14.1).
+
+  ---
+  Key answers to your final questions
+
+  How discovery works: Birdeye /defi/v3/token/new-listing is polled every 15s. Each new mint gets a full /defi/token_overview call. Results are cached in-memory and continuously refreshed.
+
+  How filtering works: 11 sequential hard rules (age, liquidity band, volume, buy count, buy/sell ratio, price change caps, price validity, suspicious patterns). First failure returns a plain-English reason
+  immediately.
+
+  How the score is calculated: Five positive factors (liquidity 0–20, momentum 0–20, buy pressure 0–20, timing 0–15, quote quality 0–10) minus five penalties (volatility, late entry, slippage, suspicious
+  behaviour, concentration). Clamped to 0–100. Minimum to buy: 80.
+
+  How the bot decides to buy: All 11 conditions must be true simultaneously — emergency stop off, daily loss under limit, position cap not reached, cooldown elapsed, no existing position in that token, token
+  passed filters, score ≥ 80, Jupiter quote obtained, price impact acceptable.
+
+  How the 2x target is calculated: targetPrice = entryPrice × 2.0. The bot also sells if price reaches 1.95× (buffer zone) to avoid missing the window due to execution latency.
+
+  How the bot decides to sell (7 priorities):
+  1. Emergency stop → immediate market sell
+  2. Price ≥ 2.0× → take profit
+  3. Price ≥ 1.95× → aggressive pre-target sell
+  4. Price ≤ entry × 0.75 → stop loss (−25%)
+  5. Time in trade > 20 minutes → timeout exit
+  6. Liquidity dropped >30% from entry → emergency exit
+  7. Sell pressure spike or momentum collapse → protective exit
+
+  What to test in paper mode before live: Run 24–48 hours, confirm discovery logs tokens, filter reasons are sensible, scores are realistic, buys trigger on good setups, 2x target fires correctly, stop-loss
+  fires at exactly −25%, timeout closes at 20 min, daily loss limit halts the bot, emergency stop closes all positions, and paper P&L is net positive over at least 10 trades.
